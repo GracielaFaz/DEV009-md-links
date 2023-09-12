@@ -3,22 +3,7 @@ const fs = require('node:fs/promises');
 
 
 
-// const pathExists = (path) => {
-//   fs.stat(path)
-// 		.then((result) => {
-// 			console.log('The path exists');
-// 		})
-// 		.catch((error) => {
-// 			if(error.code === 'ENOENT'){
-// 				console.log('The path is not a file');
-// 			} else {
-// 				console.log('There was an error verifying the path')
-// 			}
-// 		})
-
-// }
-
-const checkAndConvertToAbsolute = (isnputPath) => {
+const checkAndConvertToAbsolute = (inputPath) => {
   return fs.stat(inputPath)
 		.then(() => {
 			if(path.isAbsolute(inputPath)) {
@@ -33,6 +18,11 @@ const checkAndConvertToAbsolute = (isnputPath) => {
 		});
 }
 
+const checkExstension = (inputPath) => {
+	if(path.extname(inputPath) === '.md'){
+		return true;
+	}
+}
 
 
 
