@@ -1,11 +1,20 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+  "author": "Graciela Faz",
+  "main": "src/index.html",
   "engines": {
     "node": ">=16.x"
   },
   "bootcamp": {
     "createdAt": "2023-08-22T22:00:38.678Z",
     "commit": "24f5a51ee0a15f345b59fcd2ef44c3616abdfce5"
+  },
+  "devDependencies": {
+    "jest": "^29.6.4"
+  },
+  "scripts": {
+    "test": "jest --coverage --verbose",
+    "open-coverage-report": "opener ./coverage/lcov-report/index.html"
   }
 }
