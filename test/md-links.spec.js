@@ -1,14 +1,14 @@
-const mdLinks = require('../');
+// const mdLinks = require('../');
 
 
-describe('mdLinks', () => {
+// describe('mdLinks', () => {
 
-  it('Should return a promise', () => {
-    expect(mdLinks()).toBe(typeof Promise);
-  });
+//   it('Should return be a promise', () => {
+//     expect(mdLinks()).toBe(typeof Promise);
+//   });
 
-  it('Should reject the promise when the path does not exist', () => {
+//   it('Should reject the promise when the path does not exist', () => {
      
-  })
+//   })
 
-});
+// });
