@@ -1,34 +1,31 @@
 const path = require('node:path');
-const fs = require('node:fs/promises');
+const fsPromise = require('node:fs/promises');
+const fs = require('node:fs');
 const { isAbsolute } = require('node:path')
 
-const inputPath = 'README.js' // pa testear
+
 
 const checkAndConvertToAbsolute = (inputPath) => {
-  return fs.stat(inputPath)
+	return new Promise((resolve, reject) => {
+  fsPromise.stat(inputPath)
 		.then(() => {
 			if(isAbsolute(inputPath)) {
 				console.log('Tu ruta es absoluta')
-				return inputPath;
+				resolve(inputPath);
 			} else {
 				console.log('Tu ruta era relativa pero se convirtio a absoluta')
 				const absolutePath = path.resolve(inputPath);
-				return absolutePath;
+				resolve(absolutePath);
 			}
 		})
 		.catch(() => {
-			const err = 'ERROR' // agregar un if para los error.message de tipo ENOENT
-			throw err;
+			const err = 'ERROR: la ruta no existe' // agregar un if para los error.message de tipo ENOENT
+			reject(err);
 		});
+})
 }
 
-checkAndConvertToAbsolute(inputPath) // esto es solo para poder testear con node data.js
-	.then((result) => {
-		console.log(result);
-	})
-	.catch((error) => {
-		console.error('ERROR');
-	})
+
 
 const checkExtention = (inputPath) => {
 	if(path.extname(inputPath) === '.md'){
@@ -38,10 +35,18 @@ const checkExtention = (inputPath) => {
 	}
 }
 
+const readingFile = (inputPath) => {
+	return new Promise((resolve, reject) => {
+		fs.readFile(inputPath, 'utf8',(err, data) => {
+			resolve(data);
+		});
+	})
+}
+
 
                                                                                                                                                                  
 
-module.exports = { checkExtention, checkAndConvertToAbsolute };
+module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile };
 
 // const isFileOrDir = (path) => {
 //   return fs.stat(path)
