@@ -33,7 +33,7 @@ describe('checkAndConverToAbsolute', () => {
             await checkAndConvertToAbsolute(inexistentPath);
             throw new Error('It should throw an error');
         } catch (error) {
-            expect(error).toBe('ERROR');
+            expect(error).toBe('la ruta no existe');
         }
        
     })

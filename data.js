@@ -2,8 +2,9 @@ const path = require('node:path');
 const fsPromise = require('node:fs/promises');
 const fs = require('node:fs');
 const { isAbsolute } = require('node:path')
+const markdownIt = require('markdown-it');
 
-
+const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\READMEPRUEBA.md' // pa testear
 
 const checkAndConvertToAbsolute = (inputPath) => {
 	return new Promise((resolve, reject) => {
@@ -25,8 +26,6 @@ const checkAndConvertToAbsolute = (inputPath) => {
 })
 }
 
-
-
 const checkExtention = (inputPath) => {
 	if(path.extname(inputPath) === '.md'){
 		return true;
@@ -43,8 +42,19 @@ const readingFile = (inputPath) => {
 	})
 }
 
+const searchingForLinks = (inputPath) => {
+	const fileContent = readingFile(inputPath)
+	.then((fileContent) => {
+		const md = new markdownIt();
+		const tokens = md.parse(fileContent);
+		console.log(tokens);
+	})
+	.catch((error) => {
+		console.error('Error al encontrar los links', error)
+	})
+}
 
-                                                                                                                                                                 
+searchingForLinks(inputPath);
 
 module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile };
 
