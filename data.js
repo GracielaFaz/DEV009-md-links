@@ -3,6 +3,8 @@ const fsPromise = require('node:fs/promises');
 const fs = require('node:fs');
 const { isAbsolute } = require('node:path')
 const markdownIt = require('markdown-it');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
 const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\READMEPRUEBA.md' // pa testear
 
@@ -37,26 +39,50 @@ const checkExtention = (inputPath) => {
 const readingFile = (inputPath) => {
 	return new Promise((resolve, reject) => {
 		fs.readFile(inputPath, 'utf8',(err, data) => {
-			resolve(data);
+			if(err){
+				reject(err);
+			} else {
+				resolve(data);
+			}
 		});
 	})
 }
 
-const searchingForLinks = (inputPath) => {
-	const fileContent = readingFile(inputPath)
-	.then((fileContent) => {
+const searchingForLinks = (data, file) => {
 		const md = new markdownIt();
-		const tokens = md.parse(fileContent);
-		console.log(tokens);
-	})
-	.catch((error) => {
-		console.error('Error al encontrar los links', error)
-	})
+		const tokens = md.parse(data, {});
+		let iterador = false;
+		const linksArray = [];
+		for(const link of tokens){
+			if(link.type === 'inline'){
+				const inlineTokens = link.children;
+				inlineTokens.forEach(token => {
+					if(token.type === 'link_open'){
+						iterador = true;
+						linksArray.push({
+							herf: token.attrGet('href'),
+							text: '',
+							file: file,
+						});
+					} else if (iterador && token.type === 'text'){
+						const pedacito = linksArray[linksArray.length -1]
+						pedacito.text += token.content
+					} else if (iterador && token.type === 'link_close') {
+						iterador = false;
+					}
+				}) 
+			}	
+		}
+
+		if (linksArray.length > 0) {
+			console.log('Hay enlaces ')
+			return Promise.resolve(linksArray);
+		} else {
+			return Promise.reject(new error("No hay enlaces en el documento."));
+		}
 }
 
-searchingForLinks(inputPath);
-
-module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile };
+module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks };
 
 // const isFileOrDir = (path) => {
 //   return fs.stat(path)

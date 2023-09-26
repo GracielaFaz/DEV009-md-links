@@ -18,6 +18,7 @@
     "open-coverage-report": "opener ./coverage/lcov-report/index.html"
   },
   "dependencies": {
+    "jsdom": "^22.1.0",
     "markdown-it": "^13.0.1"
   }
 }
