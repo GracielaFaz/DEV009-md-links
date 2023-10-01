@@ -3,10 +3,7 @@ const fsPromise = require('node:fs/promises');
 const fs = require('node:fs');
 const { isAbsolute } = require('node:path')
 const markdownIt = require('markdown-it');
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-
-const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\READMEPRUEBA.md' // pa testear
+const axios = require('axios/dist/node/axios.cjs');
 
 const checkAndConvertToAbsolute = (inputPath) => {
 	return new Promise((resolve, reject) => {
@@ -60,7 +57,7 @@ const searchingForLinks = (data, file) => {
 					if(token.type === 'link_open'){
 						iterador = true;
 						linksArray.push({
-							herf: token.attrGet('href'),
+							href: token.attrGet('href'),
 							text: '',
 							file: file,
 						});
@@ -78,11 +75,24 @@ const searchingForLinks = (data, file) => {
 			console.log('Hay enlaces ')
 			return Promise.resolve(linksArray);
 		} else {
-			return Promise.reject(new error("No hay enlaces en el documento."));
+			return Promise.reject(new Error("No hay enlaces en el documento."));
 		}
 }
 
-module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks };
+const validateLinks = () => {
+	axios.get(inputPath) 
+  .then(() => {
+		if(response.status >= 400 && response.status <= 500 ){
+			return false
+		} else {
+			return true 
+		}
+	})
+}
+
+//Si 
+
+module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks, validateLinks };
 
 // const isFileOrDir = (path) => {
 //   return fs.stat(path)

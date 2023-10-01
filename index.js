@@ -4,7 +4,7 @@ const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLink
 
 const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\READMEPRUEBA.md' // pa testear
 
-const mdLinks = (path, options) => {
+const mdLinks = (path, validate) => {
 return new Promise((resolve, reject) =>{
  checkAndConvertToAbsolute(path)
  .then(absolutePath => {

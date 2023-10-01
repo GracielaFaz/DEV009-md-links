@@ -1,4 +1,4 @@
-const { checkExtention, checkAndConvertToAbsolute} = require('../data');
+const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks} = require('../data');
 
 const truePathExample = './README.md'
 const falsePathExample = 'data.js'
@@ -32,10 +32,18 @@ describe('checkAndConverToAbsolute', () => {
         try {
             await checkAndConvertToAbsolute(inexistentPath);
             throw new Error('It should throw an error');
-        } catch (error) {
-            expect(error).toBe('la ruta no existe');
+        } catch (err) {
+            expect(err).toBe('ERROR: la ruta no existe');
         }
        
     })
 
 })
+
+// describe('readingFile', () => {
+// 	it('')
+// })
+
+// describe('searchingForLinks', () => {
+// 	it('')
+// })
