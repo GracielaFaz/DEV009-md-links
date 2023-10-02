@@ -3,7 +3,7 @@ const fsPromise = require('node:fs/promises');
 const fs = require('node:fs');
 const { isAbsolute } = require('node:path')
 const markdownIt = require('markdown-it');
-const axios = require('axios/dist/node/axios.cjs');
+const axios = require('axios');
 
 const checkAndConvertToAbsolute = (inputPath) => {
 	return new Promise((resolve, reject) => {
@@ -72,25 +72,33 @@ const searchingForLinks = (data, file) => {
 		}
 
 		if (linksArray.length > 0) {
-			console.log('Hay enlaces ')
+			console.log('Hay enlaces')
 			return Promise.resolve(linksArray);
 		} else {
 			return Promise.reject(new Error("No hay enlaces en el documento."));
 		}
 }
 
-const validateLinks = () => {
-	axios.get(inputPath) 
-  .then(() => {
-		if(response.status >= 400 && response.status <= 500 ){
-			return false
-		} else {
-			return true 
-		}
-	})
+const validateLinks = (linksArray) => {
+		const result = linksArray.map((link) => {
+			console.log(link.href);
+			return axios.get(link.href)
+			.then((response) => {
+				// console.log(response.status)
+				return(response.status);
+				// if(response.status >= 400 && response.status <= 500 ){
+				// 	resolve(false);
+				// } else {
+				// 	resolve(true);
+				// }
+			})
+			.catch((error) => {
+				console.log('error')
+			});
+		});
+		console.log(result, 'RESULT')
 }
-
-//Si 
+ 
 
 module.exports = { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks, validateLinks };
 

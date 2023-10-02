@@ -1,6 +1,6 @@
 const path = require('node:path');
 const fs = require('node:fs/promises');
-const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks} = require('./data');
+const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks, validateLinks} = require('./data');
 
 const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\READMEPRUEBA.md' // pa testear
 
@@ -13,7 +13,19 @@ return new Promise((resolve, reject) =>{
       readingFile(absolutePath)
       .then(data => {
         console.log('se esta leyendo');
-        resolve(searchingForLinks(data, absolutePath));
+        if(validate === true){
+         searchingForLinks(data, absolutePath)
+          .then((links) => {
+            validateLinks(links)
+          })
+          .then((validatedLinks) => {
+            console.log(validatedLinks, 'INDEX VALIDATE')
+          }) 
+          
+        } else {
+          resolve(searchingForLinks(data, absolutePath));
+        }
+        
       })
     } else {
       reject('El archivo no es .md')
@@ -25,7 +37,7 @@ return new Promise((resolve, reject) =>{
 })
 };
 
-mdLinks(inputPath) 
+mdLinks(inputPath, true) 
 	.then((result) => {
 		console.log(result);
 	})
