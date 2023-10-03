@@ -81,22 +81,32 @@ const searchingForLinks = (data, file) => {
 
 const validateLinks = (linksArray) => {
 		const result = linksArray.map((link) => {
-			console.log(link.href);
+			// console.log(link.href);
 			return axios.get(link.href)
 			.then((response) => {
+				return {
+					...link,
+					status: response.status,
+					statusText: response.statusText,
+				};
 				// console.log(response.status)
-				return(response.status);
+				// return(response.status);
 				// if(response.status >= 400 && response.status <= 500 ){
-				// 	resolve(false);
+				// 	return false;
 				// } else {
-				// 	resolve(true);
+				// 	return true;
 				// }
 			})
 			.catch((error) => {
-				console.log('error')
+				return {
+					...link,
+					status: error.response ? error.response.staus : 'No response',
+					statusText: 'Fail',
+				}
 			});
 		});
-		console.log(result, 'RESULT')
+
+		return Promise.all(result);
 }
  
 
