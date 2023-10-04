@@ -60,6 +60,13 @@ describe('validateLinks', () => {
 			statusText: 'OK',
 		}])
 	});
+
+	it('Should reject when the url is not correct', () => {
+		axios.get.mockRejectedValue({
+			sttaus: 400,
+			statusText: 'Fail',
+		})
+	})
 });
 
 // describe('searchingForLinks', () => {

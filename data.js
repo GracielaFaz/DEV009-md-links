@@ -100,7 +100,7 @@ const validateLinks = (linksArray) => {
 			.catch((error) => {
 				return {
 					...link,
-					status: error.response ? error.response.staus : 'No response',
+					status: error.response ? error.response.status : 'No response',
 					statusText: 'Fail',
 				}
 			});
