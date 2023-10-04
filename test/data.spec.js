@@ -1,10 +1,10 @@
-const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks} = require('../data');
+const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks, validateLinks} = require('../data');
+const axios = require('axios');
 
 const truePathExample = './README.md'
 const falsePathExample = 'data.js'
 const absolutePath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\README.md'
 const inexistentPath = 'hola.txt'
-
 
 describe('checkExtention', () => {
     it('Should return true when the path extention is .md', () => {
@@ -40,9 +40,27 @@ describe('checkAndConverToAbsolute', () => {
 
 })
 
-// describe('readingFile', () => {
-// 	it('')
-// })
+jest.mock('axios');
+
+const linksArray = [{
+	href: 'https://google.com/',
+	text: 'Google',
+}]
+
+describe('validateLinks', () => {
+	it('Should resolve if the url is correct', () =>{
+		axios.get.mockResolvedValue({
+			status: 200,
+			statusText: 'OK',
+		});
+		return expect(validateLinks(linksArray)).resolves.toEqual([{
+			href: 'https://google.com/',
+			text: 'Google',
+			status: 200,
+			statusText: 'OK',
+		}])
+	});
+});
 
 // describe('searchingForLinks', () => {
 // 	it('')
