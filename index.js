@@ -15,11 +15,14 @@ return new Promise((resolve, reject) =>{
         if(validate === true){
          searchingForLinks(data, absolutePath)
           .then((links) => {
-            return validateLinks(links)
+            validateLinks(links)
+            .then((validatedLinks) => {
+              resolve(validatedLinks);
+            }) 
+            .catch(() => {
+              reject(error);
+            })
           })
-          .then((validatedLinks) => {
-            resolve(validatedLinks);
-          }) 
           .catch((error) => {
             reject(error);
           })
@@ -33,7 +36,7 @@ return new Promise((resolve, reject) =>{
       reject('El archivo no es .md')
     }
  }) 
- .catch(err => {
+ .catch((err) => {
     reject(err);
  })
 })

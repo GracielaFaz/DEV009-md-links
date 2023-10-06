@@ -89,13 +89,7 @@ const validateLinks = (linksArray) => {
 					status: response.status,
 					statusText: response.statusText,
 				};
-				// console.log(response.status)
-				// return(response.status);
-				// if(response.status >= 400 && response.status <= 500 ){
-				// 	return false;
-				// } else {
-				// 	return true;
-				// }
+
 			})
 			.catch((error) => {
 				return {

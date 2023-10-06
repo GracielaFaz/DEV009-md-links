@@ -40,6 +40,18 @@ describe('checkAndConverToAbsolute', () => {
 
 })
 
+describe('readingFile', () => {
+	
+	const testFile = 'READMETEST.md';
+
+	const expectedContent = '[Markdown-it](https://www.npmjs.com/package/markdown-it)';
+
+	it('Should return the file data when the inputPath exists', async () => {
+		const data = await readingFile(testFile)
+		expect(data).toEqual(expectedContent);
+	});
+})
+
 jest.mock('axios');
 
 const linksArray = [{
@@ -47,13 +59,25 @@ const linksArray = [{
 	text: 'Google',
 }]
 
+const linksArray404 = [{
+	href: 'https://google.com/DEV009',
+	text: 'Google',
+}]
+
+describe('searchinForLinks')
+
+
+
 describe('validateLinks', () => {
-	it('Should resolve if the url is correct', () =>{
+	it('Should resolve if the url is correct', async () =>{
 		axios.get.mockResolvedValue({
 			status: 200,
 			statusText: 'OK',
 		});
-		return expect(validateLinks(linksArray)).resolves.toEqual([{
+
+		const result = await validateLinks(linksArray);
+
+		return expect(result).toEqual([{
 			href: 'https://google.com/',
 			text: 'Google',
 			status: 200,
@@ -61,12 +85,19 @@ describe('validateLinks', () => {
 		}])
 	});
 
-	it('Should reject when the url is not correct', () => {
+	it('Should reject when the url is not correct', async () => {
 		axios.get.mockRejectedValue({
-			sttaus: 400,
+			status: 'No response',
 			statusText: 'Fail',
-		})
-	})
+		});
+
+		await expect(validateLinks(linksArray404)).resolves.toEqual([{
+			href: 'https://google.com/DEV009',
+			text: 'Google',
+			status: 'No response',
+			statusText: 'Fail',
+		}]);
+	});
 });
 
 // describe('searchingForLinks', () => {
