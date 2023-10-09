@@ -18,4 +18,4 @@ en formato `Markdown`, para verificar los links que contengan y reportar
 algunas estadísticas.
 
 ## 2. Diagrama de flujo
-![Diagrama de Flujo](https://github.com/Laboratoria/bootcamp/assets/12631491/fc6bc380-7824-4fab-ab8f-7ab53cd9d0e4)
+![Diagrama de Flujo](https://github.com/GracielaFaz/DEV009-md-links/blob/main/assets/diagrama.PNG)
