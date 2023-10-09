@@ -10,10 +10,10 @@ const checkAndConvertToAbsolute = (inputPath) => {
   fsPromise.stat(inputPath)
 		.then(() => {
 			if(isAbsolute(inputPath)) {
-				console.log('Tu ruta es absoluta')
+				// console.log('Tu ruta es absoluta')
 				resolve(inputPath);
 			} else {
-				console.log('Tu ruta era relativa pero se convirtio a absoluta')
+			// 	console.log('Tu ruta era relativa pero se convirtio a absoluta')
 				const absolutePath = path.resolve(inputPath);
 				resolve(absolutePath);
 			}
@@ -73,7 +73,7 @@ const searchingForLinks = (data, file) => {
 		}
 
 		if (linksArray.length > 0) {
-			console.log('Hay enlaces')
+			// console.log('Hay enlaces')
 			return Promise.resolve(linksArray);
 		} else {
 			return Promise.reject(new Error("No hay enlaces en el documento."));

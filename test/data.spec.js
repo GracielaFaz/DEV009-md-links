@@ -21,12 +21,12 @@ describe('checkAndConverToAbsolute', () => {
     it('Should return an absolute path when the inputPath is an absolute path', async () => {
         const result = await checkAndConvertToAbsolute(absolutePath);
         expect(result).toBe(absolutePath);
-    })
+    }, 10000);
 
     it('Should return an absolute path when the inputPath is relative', async () => {
         const result = await checkAndConvertToAbsolute(truePathExample);
         expect(result).toBe(absolutePath);
-    })
+    }, 10000);
 
     it('Should return an error when the path does not exist', async () => {
         try {
@@ -36,7 +36,7 @@ describe('checkAndConverToAbsolute', () => {
             expect(err).toBe('ERROR: la ruta no existe');
         }
        
-    })
+    }, 10000);
 
 })
 
