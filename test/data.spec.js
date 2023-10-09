@@ -40,15 +40,49 @@ describe('checkAndConverToAbsolute', () => {
 
 })
 
+const unexistingFile = 'NOREADME.md'
+const testFile = 'READMETEST.md';
+const expectedContent = '[Markdown-it](https://www.npmjs.com/package/markdown-it)';
+
+const testTextFile = 'READMETEXT.md';
+const expectedTextContent = 'Plain text';
+
+
 describe('readingFile', () => {
-	
-	const testFile = 'READMETEST.md';
-
-	const expectedContent = '[Markdown-it](https://www.npmjs.com/package/markdown-it)';
-
 	it('Should return the file data when the inputPath exists', async () => {
-		const data = await readingFile(testFile)
+		const data = await readingFile(testFile);
 		expect(data).toEqual(expectedContent);
+	});
+
+	it('Should reject the promise when the inputPath does not exists', async () => {
+		try {
+			await readingFile(unexistingFile);
+		} catch (err) {
+			expect(err).toBe('Error reading the file');
+		}
+	});
+})
+
+describe('searchingForLinks', () => {
+	it('Should return an array of links when the promise resolves', async () => {
+		const result = await searchingForLinks(expectedContent, testFile);
+	
+		expect(result).toEqual([
+			{
+				href:'https://www.npmjs.com/package/markdown-it',
+				text: 'Markdown-it',
+				file: 'READMETEST.md',
+			}
+		]);
+	});
+
+	it('Should reject the promise when the function does not find links', async () => {
+		try {
+			await searchingForLinks(expectedTextContent, testTextFile);
+			expect(true).toBe(false);
+		} catch (error) {
+			expect(error.message).toBe('No hay enlaces en el documento.');
+		}
 	});
 })
 
@@ -63,9 +97,6 @@ const linksArray404 = [{
 	href: 'https://google.com/DEV009',
 	text: 'Google',
 }]
-
-describe('searchinForLinks')
-
 
 
 describe('validateLinks', () => {
@@ -99,7 +130,3 @@ describe('validateLinks', () => {
 		}]);
 	});
 });
-
-// describe('searchingForLinks', () => {
-// 	it('')
-// })

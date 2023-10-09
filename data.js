@@ -37,6 +37,7 @@ const readingFile = (inputPath) => {
 	return new Promise((resolve, reject) => {
 		fs.readFile(inputPath, 'utf8',(err, data) => {
 			if(err){
+				const err = 'Error reading the file'
 				reject(err);
 			} else {
 				resolve(data);

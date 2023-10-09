@@ -2,7 +2,7 @@ const path = require('node:path');
 const fs = require('node:fs/promises');
 const { checkExtention, checkAndConvertToAbsolute, readingFile, searchingForLinks, validateLinks} = require('./data');
 
-const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\READMEPRUEBA.md' // pa testear
+const inputPath = 'C:\\Users\\graci\\OneDrive\\Documentos\\laboratoria-2023\\mdlinks\\DEV009-md-links\\NOREADMEPRUEBA.md' // pa testear
 
 const mdLinks = (path, validate) => {
 return new Promise((resolve, reject) =>{
